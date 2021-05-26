@@ -21,7 +21,10 @@ services:
             traefik.enable: true
             traefik.http.routers.dashboard.rule: Host(`traefik.schoolbot.dev`)
             traefik.http.routers.dashboard.entrypoints: https
+            #traefik.http.middlewares.test-auth.basicauth.users: $TRAEFIK_AUTH
             traefik.http.routers.dashboard.service: api@internal
+            #traefik.http.routers.dashboard.middlewares: auth@docker
+            #traefik.http.middlewares.global-compress.compress: true
 
 networks:
     traefik:
