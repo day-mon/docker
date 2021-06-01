@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+    website:
+        image: webserver:latest
+        container_name: schoolbot_website
+        restart: unless-stopped
+        networks:
+            - traefik
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./html:/usr/share/nginx/html
+        expose:
+            - 80
+        labels:
+            traefik.enable: true
+            traefik.http.routers.website.rule: Host(`schoolbot.dev`) || Host(`www.schoolbot.dev`)
+            traefik.http.routers.website.entrypoints: https
+            traefik.http.routers.website.middlewares: www-website-redirect
+            traefik.http.services.website.loadbalancer.server.port: 80
+            traefik.http.middlewares.www-website-redirect.redirectregex.regex: https://www.schoolbot.dev/(.*)
+            traefik.http.middlewares.www-website-redirect.redirectregex.replacement: https://schoolbot.dev/$${1}
+networks:
+    traefik:
+        external: true
