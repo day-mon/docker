@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+  schoolbot:
+    # Image name is going to depend on whatever it was set to from the Dockerfile
+    image: schoolbot-v1:latest
+    container_name: schoolbot
+    volumes: 
+      - ./schoolbot.cfg:/home/schoolbot/config/schoolbot.cfg
