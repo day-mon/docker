@@ -1,0 +1,83 @@
+version: '3.7'
+
+services:
+    grafana:
+        image: grafana/grafana
+        container_name: grafana
+        restart: unless-stopped
+        volumes:
+            - ./.data/grafana/:/var/lib/grafana/:rw
+        networks:
+            - grafana
+            - metrics
+            - traefik
+        expose:
+            - 3000
+        labels:
+            traefik.enable: true
+            traefik.http.routers.grafana.rule: Host(`grafana.schoolbot.dev`)
+            traefik.http.routers.grafana.entrypoints: https
+            traefik.http.services.grafana.loadbalancer.server.port: 3000
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        restart: unless-stopped
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--storage.tsdb.retention.time=1y'
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - .data/prometheus/:/prometheus/data/
+        networks:
+            - metrics
+            - traefik
+        expose:
+            - 9090
+    node-exporter:
+        image: prom/node-exporter
+        container_name: node-exporter
+        restart: unless-stopped
+        command: --path.rootfs=/host
+        pid: host
+        volumes:
+            - /:/host:ro,rslave
+        networks:
+            - metrics
+        expose:
+            - 9100
+    cadvisor:
+        image: gcr.io/google-containers/cadvisor
+        container_name: cadvisor
+        restart: unless-stopped
+        command:
+            - --docker_only=true
+            - --disable_metrics=disk,percpu,sched,process
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        networks:
+            - metrics
+        expose:
+            - 8080
+    loki:
+        image: grafana/loki:latest
+        container_name: loki
+        restart: unless-stopped
+        command: -config.file=/etc/loki/loki-config.yaml
+        volumes:
+            - ./loki-config.yml:/etc/loki/loki-config.yaml
+        networks:
+            - metrics
+        ports:
+            - 127.0.0.1:3100:3100
+
+networks:
+    grafana:
+        name: grafana
+    metrics:
+        name: metrics
+    traefik:
+        external: true

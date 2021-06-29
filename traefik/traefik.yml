@@ -6,14 +6,14 @@ log:
     level: info
 
 metrics:
-   # prometheus:
-    #    buckets:
-     #       - 0.1
-     #       - 0.3
-     #       - 1.2
-     #       - 5.0
-     #   addEntryPointsLabels: true
-     #   addServicesLabels: true
+    prometheus:
+        buckets:
+            - 0.1
+            - 0.3
+            - 1.2
+            - 5.0
+        addEntryPointsLabels: true
+        addServicesLabels: true
 
 entryPoints:
     http:
@@ -33,6 +33,8 @@ entryPoints:
                       sans:
                           - 'database.schoolbot.dev'
                           - 'traefik.schoolbot.dev'
+                          - 'damon.systems'
+                          - 'www.damon.systems'
 
 providers:
     docker:
