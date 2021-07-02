@@ -1,7 +1,6 @@
 version: '3.7'
-
 services:
-    website:
+   schoolbot_website:
         image: webserver:latest
         container_name: schoolbot_website
         restart: unless-stopped
@@ -9,17 +8,36 @@ services:
             - traefik
         volumes:
             - ./nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./html:/usr/share/nginx/html
+            - ./schoolbot:/usr/share/nginx/html
         expose:
             - 80
         labels:
             traefik.enable: true
-            traefik.http.routers.website.rule: Host(`schoolbot.dev`) || Host(`www.schoolbot.dev`)
-            traefik.http.routers.website.entrypoints: https
-            traefik.http.routers.website.middlewares: www-website-redirect
-            traefik.http.services.website.loadbalancer.server.port: 80
-            traefik.http.middlewares.www-website-redirect.redirectregex.regex: https://www.schoolbot.dev/(.*)
-            traefik.http.middlewares.www-website-redirect.redirectregex.replacement: https://schoolbot.dev/$${1}
+            traefik.http.routers.schoolbot_website.rule: Host(`schoolbot.dev`) || Host(`www.schoolbot.dev`)
+            traefik.http.routers.schoolbot_website.entrypoints: https
+            traefik.http.routers.schoolbot_website.middlewares: www-schoolbot_website-redirect
+            traefik.http.services.schoolbot_website.loadbalancer.server.port: 80
+            traefik.http.middlewares.www-schoolbot_website-redirect.redirectregex.regex: https://www.schoolbot.dev/(.*)
+            traefik.http.middlewares.www-schoolbot_website-redirect.redirectregex.replacement: https://schoolbot.dev/$${1}
+   personal_website:
+        image: webserver:latest
+        container_name: personal_website
+        restart: unless-stopped
+        networks:
+            - traefik
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./personal:/usr/share/nginx/html
+        expose:
+            - 80
+        labels:
+            traefik.enable: true
+            traefik.http.routers.personal_website.rule: Host(`damon.systems`) || Host(`www.damon.systems`)
+            traefik.http.routers.personal_website.entrypoints: https
+            traefik.http.routers.personal_website.middlewares: www-personal_website-redirect
+            traefik.http.services.personal_website.loadbalancer.server.port: 80
+            traefik.http.middlewares.www-personal_website-redirect.redirectregex.regex: https://www.damon.systems/(.*)
+            traefik.http.middlewares.www-personal_website-redirect.redirectregex.replacement: https://damon.systems/$${1}
 networks:
     traefik:
         external: true
