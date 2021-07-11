@@ -33,6 +33,7 @@ entryPoints:
                       sans:
                           - 'database.schoolbot.dev'
                           - 'traefik.schoolbot.dev'
+                          - 'schoolapi.schoolbot.dev'
                           - 'damon.systems'
                           - 'www.damon.systems'
 
