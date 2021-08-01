@@ -4,6 +4,7 @@ services:
     schoolapi:
         image: schoolapi:latest
         container_name: schoolapi
+        restart: unless-stopped
         labels: 
             traefik.enable: true
             traefik.http.routers.schoolapi.rule: Host(`schoolapi.schoolbot.dev`)
