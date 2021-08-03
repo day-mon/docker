@@ -36,6 +36,7 @@ entryPoints:
                           - 'schoolapi.schoolbot.dev'
                           - 'damon.systems'
                           - 'www.damon.systems'
+                          - 'portainer.schoolbot.dev'
 
 providers:
     docker:
