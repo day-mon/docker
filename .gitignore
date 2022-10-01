@@ -1,2 +1,9 @@
 .vscode
 .metals
+minecraft/normal/.data
+.data
+*.cfg
+*.env
+*.sqlite3
+*.sqlite
+*.save

@@ -1,14 +1,14 @@
 version: '3.7'
 services:
    schoolbot_website:
-        image: webserver:latest
+        image: nginx:latest
         container_name: schoolbot_website
         restart: unless-stopped
         networks:
             - traefik
         volumes:
             - ./nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./schoolbot:/usr/share/nginx/html
+            - ./schoolbot/html:/usr/share/nginx/html
         expose:
             - 80
         labels:
@@ -19,25 +19,21 @@ services:
             traefik.http.services.schoolbot_website.loadbalancer.server.port: 80
             traefik.http.middlewares.www-schoolbot_website-redirect.redirectregex.regex: https://www.schoolbot.dev/(.*)
             traefik.http.middlewares.www-schoolbot_website-redirect.redirectregex.replacement: https://schoolbot.dev/$${1}
-   personal_website:
-        image: webserver:latest
-        container_name: personal_website
+   montague:
+        image: nginx:latest
+        container_name: montague
         restart: unless-stopped
         networks:
             - traefik
         volumes:
-            - ./nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./personal:/usr/share/nginx/html
+            - ./nginx_montague.conf:/etc/nginx/nginx.conf:ro
         expose:
             - 80
         labels:
             traefik.enable: true
-            traefik.http.routers.personal_website.rule: Host(`damon.systems`) || Host(`www.damon.systems`)
-            traefik.http.routers.personal_website.entrypoints: https
-            traefik.http.routers.personal_website.middlewares: www-personal_website-redirect
-            traefik.http.services.personal_website.loadbalancer.server.port: 80
-            traefik.http.middlewares.www-personal_website-redirect.redirectregex.regex: https://www.damon.systems/(.*)
-            traefik.http.middlewares.www-personal_website-redirect.redirectregex.replacement: https://damon.systems/$${1}
+            traefik.http.routers.montague.rule: Host(`montague.im`) || Host(`www.montague.im`)
+            traefik.http.routers.montague.entrypoints: https
+            traefik.http.services.montague.loadbalancer.server.port: 80
 networks:
     traefik:
         external: true

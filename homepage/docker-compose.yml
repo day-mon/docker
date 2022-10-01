@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
+    container_name: homepage
+    restart: always
+    networks:
+      - traefik
+    volumes:
+      - ./icons/:/app/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
+      - ./.config:/app/config # Make sure your local config directory exists
+    labels:
+      traefik.enable: true
+      traefik.http.routers.home.rule: Host(`home.montague.im`)
+      traefik.http.routers.home.entrypoints: https
+      traefik.http.services.home.loadbalancer.server.port: 3000
+      traefik.http.routers.home.middlewares: authelia@docker
+
+networks:
+  traefik:
+    external: true

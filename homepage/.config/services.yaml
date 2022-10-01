@@ -1,0 +1,62 @@
+---
+# For configuration options and examples, please see:
+# https://github.com/benphelps/homepage/wiki/Services
+
+- Networking:
+    - Traefik:
+        icon: traefik.png
+        href: https://traefik.montague.im
+        description: Docker container routing
+        server: my-local-docker # The docker server that was configured
+        container: traefik # The name of the container you'd like to connect
+        widget:
+            type: traefik
+            url: http://traefik.montague.im
+    - Adguard:
+        icon: adguard-home.png
+        href: https://adguard.montague.im
+        description: DNS & Adblocking
+        server: my-local-docker
+        container: adguard
+        widget:
+            type: adguard
+            url: https://adguard.montague.im
+            username: damon
+            password: A]6u;o|~i\cpq,pRG!d8
+
+- Development:
+    - Postgres:
+        icon: postgres.png
+        href: "https://database.montague.im"
+        description: PGAdmin Instance
+        server: my-local-docker # The docker server that was configured
+        container: database-dev # The name of the container you'd like to connect
+    - Surreeal:
+        icon: /icons/surreal.svg
+        href: https://surreal.montague.im
+        description: Surreal Instance (ui not avaiable yet)
+        server: my-local-docker # The docker server that was configured
+        container: database-dev # The name of the container you'd like to connect
+
+
+- Metrics:
+    - Grafana:
+        icon: grafana.png
+        href: https://grafana.montague.im
+        description: Monitoring
+        server: my-local-docker
+        container: grafana
+    - Prometheus:
+        icon: prometheus.png
+        href: https://prometheus.montague.im
+        description: Monitoring
+        server: my-local-docker
+        container: prometheus
+        
+- Games:
+    - Minecraft:
+        icon: minecraft.png
+        href: http://map.montague.im/
+        description: BlueMap instance for minecraft
+        server: my-local-docker
+        container: minecraft_server

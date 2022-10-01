@@ -1,0 +1,7 @@
+users:
+  damon:
+    displayname: "Damon"
+    password: "example"
+    email: "damon@montague.im"
+    groups:
+      - admin

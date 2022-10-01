@@ -1,0 +1,33 @@
+---
+# For configuration options and examples, please see:
+# https://github.com/benphelps/homepage/wiki/Bookmarks
+
+- Developer:
+    - Github:
+        - abbr: GH
+          href: https://github.com/day-mon
+    - Dev Hints:
+        - abbr: DH
+          href: https://devhints.io/
+
+- Social:
+    - Reddit:
+        - abbr: RE
+          href: https://reddit.com/
+    - Twitter:
+        - abbr: TW
+          href: "https://twitter.com/"
+
+- Entertainment:
+    - YouTube:
+        - abbr: YT
+          href: https://youtube.com/
+      
+
+- School:
+    - Pitt:
+        - abbr: PIT
+          href: https://my.pitt.edu
+    - Canvas:
+        - abbr: CAN
+          href: https://canvas.pitt.edu

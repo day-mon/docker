@@ -1,0 +1,20 @@
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    container_name: surrealdb
+    restart: always
+    networks:
+      - traefik
+    command: start --user ${USERDB} --pass ${PASS}  file:/data/database.db
+    volumes:
+      - ./.data:/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.surreal.rule: Host(`surreal.$PRIMARY_DOMAIN`)
+      traefik.http.routers.surreal.entrypoints: https
+      traefik.http.services.surreal.loadbalancer.server.port: 8000
+
+
+networks:
+  traefik:
+    external: true

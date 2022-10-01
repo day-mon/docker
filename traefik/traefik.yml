@@ -18,7 +18,7 @@ metrics:
 entryPoints:
     http:
         address: ':80'
-        http:
+        http:   
             redirections:
                 entryPoint:
                     to: https
@@ -29,15 +29,27 @@ entryPoints:
             tls:
                 certResolver: default
                 domains:
-                    - main: 'schoolbot.dev'
+                    - main: 'montague.im'
                       sans:
-                          - 'database.schoolbot.dev'
-                          - 'traefik.schoolbot.dev'
-                          - 'schoolapi.schoolbot.dev'
+                          - 'database.montague.im'
+                          - 'traefik.montague.im'
+                          - 'map.montague.im'
+                          - 'schoolbot.dev'
+                          - 'home.montague.im'
+                          - 'grafana.montague.im'
+                          - 'adguard.montague.im'
                           - 'damon.systems'
                           - 'www.damon.systems'
-                          - 'portainer.schoolbot.dev'
-
+                          - 'public.montague.im'
+                          - 'secure.montague.im'
+                          - 'auth.montague.im'
+                          - 'prometheus.montague.im'
+                          - 'johnstown.schoolbot.dev'
+                          - 'surreal.montague.im'
+                          - 'montague.im'
+            middlewares:
+                - global-compress@docker
+                  
 providers:
     docker:
         exposedByDefault: false
@@ -51,8 +63,9 @@ api:
 certificatesResolvers:
     default:
         acme:
-            #caserver: https://acme-staging-v02.api.letsencrypt.org/directory
+          #caserver: https://acme-staging-v02.api.letsencrypt.org/directory
             email: damon@montague.im
             storage: /letsencrypt/acme.json
             httpChallenge:
                 entryPoint: http
+

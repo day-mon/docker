@@ -5,7 +5,6 @@ services:
         image: itzg/minecraft-server:latest
         #image: itzg/minecraft-server:java8
         container_name: minecraft_server
-        restart: unless-stopped
         env_file:
             - config.env
         volumes:
@@ -13,9 +12,17 @@ services:
             - ./.data:/data
         networks:
             - minecraft
+            - traefik
+        labels:
+          traefik.enable: true
+          traefik.http.routers.mc.rule: Host(`map.montague.im`)
+          traefik.http.routers.mc.entrypoints: https
+          traefik.http.services.mc.loadbalancer.server.port: 8100
         ports:
             - 25565:25565
 
 networks:
+    traefik:
+      external: true
     minecraft:
         name: minecraft

@@ -7,16 +7,19 @@ services:
         restart: unless-stopped
         volumes:
             - ./.data/grafana/:/var/lib/grafana/:rw
+            - ./grafana.ini:/etc/grafana/grafana.ini
         networks:
             - grafana
             - metrics
             - traefik
+            - loki
         expose:
             - 3000
         labels:
             traefik.enable: true
-            traefik.http.routers.grafana.rule: Host(`grafana.schoolbot.dev`)
+            traefik.http.routers.grafana.rule: Host(`grafana.$PRIMARY_DOMAIN`)
             traefik.http.routers.grafana.entrypoints: https
+            traefik.http.routers.grafana.middlewares: authelia@docker
             traefik.http.services.grafana.loadbalancer.server.port: 3000
     prometheus:
         image: prom/prometheus
@@ -28,12 +31,20 @@ services:
             - '--storage.tsdb.retention.time=1y'
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
-            - .data/prometheus/:/prometheus/data/
+            - ./.data/prometheus/:/prometheus/data/
         networks:
             - metrics
             - traefik
+            - loki
         expose:
             - 9090
+        labels:
+            traefik.enable: true
+            traefik.http.routers.prometheus.rule: Host(`prometheus.$PRIMARY_DOMAIN`)
+            traefik.http.routers.prometheus.entrypoints: https
+            traefik.http.services.prometheus.loadbalancer.server.port: 9090
+            traefik.http.routers.prometheus.middlewares: authelia@docker
+
     node-exporter:
         image: prom/node-exporter
         container_name: node-exporter
@@ -47,12 +58,12 @@ services:
         expose:
             - 9100
     cadvisor:
-        image: gcr.io/google-containers/cadvisor
+        image: gcr.io/cadvisor/cadvisor
         container_name: cadvisor
         restart: unless-stopped
         command:
             - --docker_only=true
-            - --disable_metrics=disk,percpu,sched,process
+            - --disable_metrics=referenced_memory,disk,percpu,sched,process
         volumes:
             - /:/rootfs:ro
             - /var/run:/var/run:ro
@@ -63,21 +74,28 @@ services:
         expose:
             - 8080
     loki:
-        image: grafana/loki:latest
+        image: grafana/loki:2.4.2
         container_name: loki
         restart: unless-stopped
-        command: -config.file=/etc/loki/loki-config.yaml
-        volumes:
-            - ./loki-config.yml:/etc/loki/loki-config.yaml
+        command: -config.file=/etc/loki/local-config.yaml
         networks:
-            - metrics
-        ports:
-            - 127.0.0.1:3100:3100
-
+            - loki
+    promtail:
+        image: grafana/promtail:2.4.2
+        container_name: promtail
+        restart: unless-stopped
+        command: -config.file=/etc/promtail/docker-config.yml
+        volumes:
+            - /var/lib/docker/containers:/var/lib/docker/containers
+            - ./promtail-config.yml:/etc/promtail/docker-config.yml
+        networks:
+            - loki
 networks:
     grafana:
         name: grafana
     metrics:
         name: metrics
+    loki:
+        name: loki
     traefik:
         external: true

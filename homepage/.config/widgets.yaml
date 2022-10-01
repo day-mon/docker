@@ -1,0 +1,21 @@
+---
+# For configuration options and examples, please see:
+# https://github.com/benphelps/homepage/wiki/Information-Widgets
+
+- resources:
+    cpu: true
+    memory: true
+    disk: /
+
+- search:
+    provider: google # google, duckduckgo, bing or custom
+    focus: true # Optional, will set focus to the search bar on page load
+    target: _blank # One of _self, _blank, _parent or _top
+
+- datetime:
+    text_size: md
+    format:
+      dateStyle: short
+      timeStyle: short
+      hour12: false
+
