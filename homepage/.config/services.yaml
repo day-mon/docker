@@ -14,15 +14,15 @@
             url: http://traefik.montague.im
     - Adguard:
         icon: adguard-home.png
-        href: https://adguard.montague.im
+        href: https://guard.montague.im
         description: DNS & Adblocking
         server: my-local-docker
         container: adguard
         widget:
             type: adguard
-            url: https://adguard.montague.im
+            url: https://guard.montague.im
             username: damon
-            password: A]6u;o|~i\cpq,pRG!d8
+            password: january2019tori
 
 - Development:
     - Postgres:
@@ -53,10 +53,16 @@
         server: my-local-docker
         container: prometheus
         
-- Games:
+- Other:
     - Minecraft:
         icon: minecraft.png
         href: http://map.montague.im/
         description: BlueMap instance for minecraft
         server: my-local-docker
         container: minecraft_server
+    - VaultWarden:
+        icon: vaultwarden.png
+        href: http://vault.montague.im
+        description: VaultWarden instance
+        server: my-local-docker
+        container: vaultwarden

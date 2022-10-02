@@ -12,7 +12,7 @@ services:
       - ./.config:/app/config # Make sure your local config directory exists
     labels:
       traefik.enable: true
-      traefik.http.routers.home.rule: Host(`home.montague.im`)
+      traefik.http.routers.home.rule: Host(`home.$PRIMARY_DOMAIN`)
       traefik.http.routers.home.entrypoints: https
       traefik.http.services.home.loadbalancer.server.port: 3000
       traefik.http.routers.home.middlewares: authelia@docker

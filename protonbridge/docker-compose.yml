@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+    protonbridge:
+      image: shenxn/protonmail-bridge
+      container_name: protonbridge
+      restart: always
+      networks:
+        - mail
+      ports:
+        - 127.0.0.1:25:1025/tcp
+        - 127.0.0.1:143:1143/tcp
+      volumes:
+        - ./.data:/root
+        - /usr/share/ca-certificates/mozilla:/usr/share/ca-certificates/mozilla:ro
+
+networks:
+    mail:
+      name: mail

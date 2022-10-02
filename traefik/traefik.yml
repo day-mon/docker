@@ -37,7 +37,8 @@ entryPoints:
                           - 'schoolbot.dev'
                           - 'home.montague.im'
                           - 'grafana.montague.im'
-                          - 'adguard.montague.im'
+                          - 'guard.montague.im'
+                          - 'guard-setup.montague.im'
                           - 'damon.systems'
                           - 'www.damon.systems'
                           - 'public.montague.im'
@@ -45,6 +46,8 @@ entryPoints:
                           - 'auth.montague.im'
                           - 'prometheus.montague.im'
                           - 'johnstown.schoolbot.dev'
+                          - 'vault.montague.im'
+                          - 'warden.montague.im'
                           - 'surreal.montague.im'
                           - 'montague.im'
             middlewares:

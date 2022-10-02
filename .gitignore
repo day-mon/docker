@@ -7,3 +7,5 @@ minecraft/normal/.data
 *.sqlite3
 *.sqlite
 *.save
+*.env
+*.log
