@@ -36,7 +36,7 @@
         href: https://surreal.montague.im
         description: Surreal Instance (ui not avaiable yet)
         server: my-local-docker # The docker server that was configured
-        container: database-dev # The name of the container you'd like to connect
+        container: surrealdb # The name of the container you'd like to connect
 
 
 - Metrics:
@@ -66,3 +66,9 @@
         description: VaultWarden instance
         server: my-local-docker
         container: vaultwarden
+    - Zipline:
+        icon: /icons/zipline_small.png
+        href: http://upload.montague.im
+        description: Zipline Instance (file storage & url shortener)
+        server: my-local-docker
+        container: zipline

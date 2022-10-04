@@ -47,7 +47,9 @@ entryPoints:
                           - 'prometheus.montague.im'
                           - 'johnstown.schoolbot.dev'
                           - 'vault.montague.im'
+                          - 'upload.montague.im'
                           - 'warden.montague.im'
+                          - 'miner.montague.im'
                           - 'surreal.montague.im'
                           - 'montague.im'
             middlewares:

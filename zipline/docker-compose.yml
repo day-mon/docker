@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+    zipline:
+      image: ghcr.io/diced/zipline
+      container_name: zipline
+      restart: unless-stopped
+      env_file:
+        - conf.env
+      networks:
+        - database
+        - traefik
+      volumes:
+        - './.uploads:/zipline/uploads'
+        - './.public:/zipline/public'
+      labels:
+        traefik.enable: true
+        traefik.http.routers.upload.entrypoints: https
+        traefik.http.services.upload.loadbalancer.server.port: 3000
+        traefik.http.routers.upload.rule: Host(`upload.$PRIMARY_DOMAIN`)
+      
+
+
+networks:
+  traefik:
+    external: true
+  database: 
+    external: true
