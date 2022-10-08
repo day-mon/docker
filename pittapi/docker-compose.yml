@@ -1,0 +1,19 @@
+
+version: '3.7'
+
+services:
+    schoolapi:
+        image: ghcr.io/day-mon/pitt-api-final:main
+        container_name: schoolapi
+        restart: unless-stopped
+        labels: 
+            traefik.enable: true
+            traefik.http.routers.schoolapi.rule: Host(`schoolapi.schoolbot.dev`)
+            traefik.http.routers.schoolapi.entrypoints: https
+            traefik.http.services.schoolapi.loadbalancer.server.port: 7777
+        networks:
+            - traefik
+
+networks:
+    traefik:
+        external: true

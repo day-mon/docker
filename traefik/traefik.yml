@@ -52,6 +52,8 @@ entryPoints:
                           - 'miner.montague.im'
                           - 'surreal.montague.im'
                           - 'montague.im'
+                          - 'schoolapi.schoolbot.dev'
+
             middlewares:
                 - global-compress@docker
                   
