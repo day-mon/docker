@@ -3,7 +3,6 @@ version: '3.7'
 services:
     minecraft:
         image: itzg/minecraft-server:latest
-        #image: itzg/minecraft-server:java8
         container_name: minecraft_server
         env_file:
             - config.env
@@ -15,14 +14,36 @@ services:
             - traefik
         labels:
           traefik.enable: true
-          traefik.http.routers.mc.rule: Host(`map.montague.im`)
+          traefik.http.routers.mc.rule: Host(`map.$PRIMARY_DOMAIN`)
           traefik.http.routers.mc.entrypoints: https
           traefik.http.services.mc.loadbalancer.server.port: 8100
         ports:
             - 25565:25565
 
+    mineos:
+        image: hexparrot/mineos:latest
+        container_name: mineos-ui
+        restart: unless-stopped
+        stop_grace_period: 10m
+        volumes:
+            - ./.mineos:/var/games/minecraft
+        ports:
+            - "8443:8443/tcp"
+        networks:
+            - minecraft
+            - traefik
+        labels:
+          traefik.enable: true
+          traefik.http.routers.mineui.rule: Host(`mineos.$PRIMARY_DOMAIN`)
+          traefik.http.routers.mineui.entrypoints: https
+          traefik.http.services.mineui.loadbalancer.server.port: 8888
+        environment:
+          - USER_NAME=damon
+          - SERVER_PORT=8888
+          - USE_HTTPS=false
+
 networks:
     traefik:
       external: true
     minecraft:
-        name: minecraft
+      name: minecraft

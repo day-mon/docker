@@ -23,14 +23,25 @@
             url: https://guard.montague.im
             username: damon
             password: january2019tori
+    - Authelia:
+        icon: authelia.png
+        description: Authentication for things
+        server: my-local-docker
+        container: authelia
 
 - Development:
-    - Postgres:
+    - Postgres (Remote):
         icon: postgres.png
         href: "https://database.montague.im"
         description: PGAdmin Instance
         server: my-local-docker # The docker server that was configured
         container: database-dev # The name of the container you'd like to connect
+    - Postgres (Local):
+        icon: postgres.png
+        href: "https://database.montague.im"
+        description: PGAdmin Instance
+        server: my-local-docker # The docker server that was configured
+        container: database # The name of the container you'd like to connect
     - Surreeal:
         icon: /icons/surreal.svg
         href: https://surreal.montague.im
@@ -52,23 +63,41 @@
         description: Monitoring
         server: my-local-docker
         container: prometheus
-        
-- Other:
-    - Minecraft:
-        icon: minecraft.png
-        href: http://map.montague.im/
-        description: BlueMap instance for minecraft
+    - Cadvisor:
+        icon: cadvisor.png
+        description: Docker container metrics scaper
         server: my-local-docker
-        container: minecraft_server
+        container: cadvisor
+    - Node Exporter:
+        icon: /icons/node-exporter.png
+        description: Exporting docker thing
+        server: my-local-docker
+        container: node-exporter
+
+- Other:
     - VaultWarden:
         icon: vaultwarden.png
         href: http://vault.montague.im
         description: VaultWarden instance
         server: my-local-docker
         container: vaultwarden
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: http://uptime.montague.im
+        description: Uptime statues
+        server: my-local-docker
+        container: uptime-kuma
     - Zipline:
         icon: /icons/zipline_small.png
         href: http://upload.montague.im
         description: Zipline Instance (file storage & url shortener)
         server: my-local-docker
         container: zipline
+
+- Game Server:
+    - Minecraft:
+        icon: minecraft.png
+        href: http://map.montague.im/
+        description: BlueMap instance for minecraft
+        server: my-local-docker
+        container: minecraft_server

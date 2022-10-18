@@ -34,26 +34,24 @@ entryPoints:
                           - 'database.montague.im'
                           - 'traefik.montague.im'
                           - 'map.montague.im'
-                          - 'schoolbot.dev'
                           - 'home.montague.im'
                           - 'grafana.montague.im'
                           - 'guard.montague.im'
                           - 'guard-setup.montague.im'
-                          - 'damon.systems'
-                          - 'www.damon.systems'
-                          - 'public.montague.im'
-                          - 'secure.montague.im'
                           - 'auth.montague.im'
+                          - 'uptime.montague.im'
                           - 'prometheus.montague.im'
-                          - 'johnstown.schoolbot.dev'
+                          - 'jupyter.montague.im'
+                          - 'mineos.montague.im'
                           - 'vault.montague.im'
                           - 'upload.montague.im'
                           - 'warden.montague.im'
                           - 'miner.montague.im'
                           - 'surreal.montague.im'
-                          - 'montague.im'
+                          - 'schoolbot.dev'
                           - 'schoolapi.schoolbot.dev'
-
+                          - 'damon.systems'
+                          - 'www.damon.systems'
             middlewares:
                 - global-compress@docker
                   
@@ -63,6 +61,7 @@ providers:
         network: traefik
     file:
         directory: '/configs'
+
 
 api:
     dashboard: true

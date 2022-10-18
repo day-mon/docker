@@ -4,7 +4,7 @@ services:
     protonbridge:
       image: shenxn/protonmail-bridge
       container_name: protonbridge
-      restart: always
+      restart: unless-stopped
       networks:
         - mail
       ports:

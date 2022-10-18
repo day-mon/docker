@@ -11,5 +11,6 @@ providers:
   weatherapi: weatherapiapikey
 
 theme: dark # or light
-color: gray
+color: zinc
 title: Homepage
+headerStyle: boxed
