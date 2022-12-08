@@ -3,7 +3,8 @@ global:
     sendAnonymousUsage: true
 
 log:
-    level: info
+    level: debug
+    format: common
 
 metrics:
     prometheus:
@@ -18,7 +19,7 @@ metrics:
 entryPoints:
     http:
         address: ':80'
-        http:   
+        http:
             redirections:
                 entryPoint:
                     to: https
@@ -37,16 +38,26 @@ entryPoints:
                           - 'home.montague.im'
                           - 'grafana.montague.im'
                           - 'guard.montague.im'
+                          - 'sports.schoolbot.dev'
                           - 'guard-setup.montague.im'
                           - 'auth.montague.im'
                           - 'uptime.montague.im'
+                          - 'cloud.montague.im'
+                          - 'office.montague.im'
+                          - 'docker.montague.im'
                           - 'prometheus.montague.im'
+                          - 'accuribet.win'
+                          - 'mock.accuribet.win'
+                          - 'mapi.accuribet.win'
+                          - 'api.accuribet.win'
                           - 'jupyter.montague.im'
                           - 'mineos.montague.im'
                           - 'vault.montague.im'
                           - 'upload.montague.im'
                           - 'warden.montague.im'
                           - 'miner.montague.im'
+                          - 'wings.montague.im'
+                          - 'games.montague.im'
                           - 'surreal.montague.im'
                           - 'schoolbot.dev'
                           - 'schoolapi.schoolbot.dev'
@@ -54,7 +65,7 @@ entryPoints:
                           - 'www.damon.systems'
             middlewares:
                 - global-compress@docker
-                  
+
 providers:
     docker:
         exposedByDefault: false

@@ -2,7 +2,7 @@
 # For configuration options and examples, please see:
 # https://github.com/benphelps/homepage/wiki/Bookmarks
 
-- Developer:
+- Development:
     - Github:
         - abbr: GH
           href: https://github.com/day-mon
@@ -22,6 +22,9 @@
     - YouTube:
         - abbr: YT
           href: https://youtube.com/
+    - Twitch:
+      - abbr: TW
+        href: https://twitch.tv/
       
 
 - School:

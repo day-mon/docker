@@ -6,13 +6,13 @@ services:
         image: ghcr.io/day-mon/pitt-api-final:main
         container_name: schoolapi
         restart: unless-stopped
+        networks:
+            - traefik
         labels: 
             traefik.enable: true
             traefik.http.routers.schoolapi.rule: Host(`schoolapi.schoolbot.dev`)
             traefik.http.routers.schoolapi.entrypoints: https
             traefik.http.services.schoolapi.loadbalancer.server.port: 8080
-        networks:
-            - traefik
 
 networks:
     traefik:

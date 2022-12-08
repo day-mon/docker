@@ -1,0 +1,94 @@
+version: '3.8'
+x-common:
+  database:
+    &db-environment
+    # Do not remove the "&db-password" from the end of the line below, it is important
+    # for Panel functionality.
+    MYSQL_PASSWORD: &db-password ""
+    MYSQL_ROOT_PASSWORD: ""
+  panel:
+    &panel-environment
+    APP_URL: "https://games.montague.im"
+    # A list of valid timezones can be found here: http://php.net/manual/en/timezones.php
+    APP_TIMEZONE: "EST"
+    APP_SERVICE_AUTHOR: "damon@montgaue.im"
+  mail:
+    &mail-environment
+    MAIL_FROM: ""
+    MAIL_DRIVER: ""
+    MAIL_HOST: ""
+    MAIL_PORT: ""
+    MAIL_USERNAME: "damon@montague.im"
+    MAIL_PASSWORD: ""
+    MAIL_ENCRYPTION: ""
+
+#
+# ------------------------------------------------------------------------------------------
+# DANGER ZONE BELOW
+#
+# The remainder of this file likely does not need to be changed. Please only make modifications
+# below if you understand what you are doing.
+#
+
+services:
+  gsdatabase:
+    image: library/mysql:8.0
+    restart: always
+    container_name: game-server-database
+    networks:
+      - database
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      <<: *db-environment
+      MYSQL_DATABASE: "panel"
+      MYSQL_USER: "pterodactyl"
+
+  cache:
+    image: redis:alpine
+    restart: always
+    container_name: game-server-cache
+    networks:
+      - database
+
+  panel:
+    image: ghcr.io/pterodactyl/panel:v1.9.1
+    restart: always
+    container_name: game-server-panel
+    networks:
+      - database
+      - traefik
+      - mail
+    links:
+      - gsdatabase
+      - cache
+    volumes:
+      - "./panel/var/:/app/var/"
+      - "./panel/logs/:/app/storage/logs"
+      - "./panel/nginx/:/etc/nginx/conf.d/"
+    environment:
+      <<: [*panel-environment, *mail-environment]
+      DB_PASSWORD: *db-password
+      APP_ENV: "production"
+      APP_ENVIRONMENT_ONLY: "false"
+      CACHE_DRIVER: "redis"
+      SESSION_DRIVER: "redis"
+      QUEUE_DRIVER: "redis"
+      REDIS_HOST: "cache"
+      DB_HOST: "gsdatabase"
+      TRUSTED_PROXIES: "*"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.games.rule: Host(`games.$PRIMARY_DOMAIN`)
+      traefik.http.routers.games.entrypoints: https
+      traefik.http.services.games.loadbalancer.server.port: 80
+      traefik.http.routers.games.middlewares: authelia@docker
+
+networks:
+  database:
+    external: false
+  traefik:
+    external: true
+  mail:
+    external: true

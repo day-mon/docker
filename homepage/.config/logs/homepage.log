@@ -567,3 +567,80 @@
     at Object.renderToHTML (/app/node_modules/.pnpm/next@12.3.1_biqbaboplfbrettd7655fr4n2y/node_modules/next/dist/server/render.js:386:26)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async doRender (/app/node_modules/.pnpm/next@12.3.1_biqbaboplfbrettd7655fr4n2y/node_modules/next/dist/server/base-server.js:669:38)
+[2022-10-19T22:38:16.580Z] error: <httpProxy> Error calling http://traefik.montague.im/api/overview...
+[2022-10-19T22:38:16.587Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN traefik.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'traefik.montague.im'
+  }
+]
+[2022-10-19T22:38:16.591Z] error: <httpProxy> Error calling https://guard.montague.im/control/stats...
+[2022-10-19T22:38:16.592Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN guard.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'guard.montague.im'
+  }
+]
+[2022-11-01T04:21:09.055Z] error: <httpProxy> Error calling http://traefik.montague.im/api/overview...
+[2022-11-01T04:21:09.061Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN traefik.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'traefik.montague.im'
+  }
+]
+[2022-11-01T04:21:09.064Z] error: <httpProxy> Error calling https://guard.montague.im/control/stats...
+[2022-11-01T04:21:09.064Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN guard.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'guard.montague.im'
+  }
+]
+[2022-11-01T04:21:25.800Z] error: <httpProxy> Error calling https://guard.montague.im/control/stats...
+[2022-11-01T04:21:25.801Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN guard.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'guard.montague.im'
+  }
+]
+[2022-11-01T04:23:40.352Z] error: <httpProxy> Error calling https://guard.montague.im/control/stats...
+[2022-11-01T04:23:40.353Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN guard.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'guard.montague.im'
+  }
+]
+[2022-11-01T04:23:42.432Z] error: <httpProxy> Error calling http://traefik.montague.im/api/overview...
+[2022-11-01T04:23:42.434Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN traefik.montague.im
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'traefik.montague.im'
+  }
+]

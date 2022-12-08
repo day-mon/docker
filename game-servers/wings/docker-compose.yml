@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  wings:
+    image: ghcr.io/pterodactyl/wings:v1.6.4
+    container_name: game-server-backend
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - traefik
+    tty: true
+    environment:
+      TZ: "EST"
+      WINGS_UID: 988
+      WINGS_GID: 988
+      WINGS_USERNAME: pterodactyl
+      debug: "true"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/docker/containers/:/var/lib/docker/containers/"
+      - "/tmp/pterodactyl/:/tmp/pterodactyl/"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "./wings/etc/:/etc/pterodactyl/"
+      - "./wings/logs:/var/log/pterodactyl/"
+      - "/var/lib/pterodactyl/:/var/lib/pterodactyl/"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.wings.entrypoints: https
+      traefik.http.routers.wings.rule: Host(`wings.$PRIMARY_DOMAIN`)
+      traefik.http.routers.wings.middlewares: wings
+      traefik.http.services.wings.loadbalancer.server.port: 443
+      traefik.http.middlewares.wings.headers.accesscontrolallowheaders: Authorization
+      traefik.http.middlewares.wings.headers.accesscontrolalloworiginlist: "*"
+
+networks:
+  traefik:
+    external: true

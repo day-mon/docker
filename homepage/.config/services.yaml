@@ -93,6 +93,12 @@
         description: Zipline Instance (file storage & url shortener)
         server: my-local-docker
         container: zipline
+    - Portainer:
+        icon: portainer.png
+        href: https://docker.montague.im
+        description: Frontend for docker
+        server: my-local-Docker
+        container: portainer
 
 - Game Server:
     - Minecraft:
