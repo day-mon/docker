@@ -101,9 +101,9 @@
         container: portainer
 
 - Game Server:
-    - Minecraft:
-        icon: minecraft.png
-        href: http://map.montague.im/
-        description: BlueMap instance for minecraft
+    - Pterodactyl:
+        icon: pterodactyl.png
+        href: http://games.montague.im/
+        description: Game server mangement
         server: my-local-docker
-        container: minecraft_server
+        container: game-server-backend

@@ -46,6 +46,7 @@ entryPoints:
                           - 'office.montague.im'
                           - 'docker.montague.im'
                           - 'prometheus.montague.im'
+                          - 'watchtower.montague.im'
                           - 'accuribet.win'
                           - 'mock.accuribet.win'
                           - 'mapi.accuribet.win'
