@@ -1,0 +1,39 @@
+instance_name = "Montague"
+
+
+[auth.proxy]
+enabled = true
+header_name = Remote-User
+header_property = username
+auto_sign_up = true
+headers = Groups:Remote-Group
+enable_login_token = false
+
+[server]
+enable_gzip = true
+
+[database]
+type = postgres
+host = database:5432
+user = grafana
+password = 
+url = 
+
+
+[security]
+admin_user = 
+admin_email = 
+disable_initial_admin_creation = true
+
+[log.frontend]
+enabled = true
+provider = grafana
+
+[smtp]
+enabled = true
+host = 
+from_address = 
+user = 
+password = 
+skip_verify = true
+

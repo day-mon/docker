@@ -3,7 +3,7 @@ global:
     sendAnonymousUsage: true
 
 log:
-    level: debug
+    level: info 
     format: common
 
 metrics:

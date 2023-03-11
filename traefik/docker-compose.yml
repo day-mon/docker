@@ -14,7 +14,7 @@ services:
             - ./traefik.yml:/etc/traefik/traefik.yml
             - ./.data/letsencrypt/:/letsencrypt/
             - ./configs/:/configs/:ro
-            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - /var/run/docker.sock:/var/run/docker.sock
         labels:
             traefik.enable: true
             traefik.http.routers.dashboard.rule: Host(`traefik.$PRIMARY_DOMAIN`)
@@ -31,7 +31,6 @@ services:
         container_name: authelia
         depends_on:
             - traefik
-        user: "1000:27"
         volumes:
             - ./authelia:/config
         networks:

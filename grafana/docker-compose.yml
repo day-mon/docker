@@ -2,19 +2,19 @@ version: '3.7'
 
 services:
     grafana:
-        image: grafana/grafana
+        image: grafana/grafana-oss
         container_name: grafana
         restart: unless-stopped
         volumes:
-            - ./.data/grafana/:/var/lib/grafana/:rw
+            - ./.data/grafana/:/var/lib/grafana/
             - ./grafana.ini:/etc/grafana/grafana.ini
         networks:
             - grafana
+            - mail
             - metrics
+            - database
             - traefik
             - loki
-        expose:
-            - 3000
         labels:
             traefik.enable: true
             traefik.http.routers.grafana.rule: Host(`grafana.$PRIMARY_DOMAIN`)
@@ -36,8 +36,6 @@ services:
             - metrics
             - traefik
             - loki
-        expose:
-            - 9090
         labels:
             traefik.enable: true
             traefik.http.routers.prometheus.rule: Host(`prometheus.$PRIMARY_DOMAIN`)
@@ -55,8 +53,6 @@ services:
             - /:/host:ro,rslave
         networks:
             - metrics
-        expose:
-            - 9100
     cadvisor:
         image: gcr.io/cadvisor/cadvisor
         container_name: cadvisor
@@ -71,17 +67,15 @@ services:
             - /var/lib/docker/:/var/lib/docker:ro
         networks:
             - metrics
-        expose:
-            - 8080
     loki:
-        image: grafana/loki:2.4.2
+        image: grafana/loki
         container_name: loki
         restart: unless-stopped
         command: -config.file=/etc/loki/local-config.yaml
         networks:
             - loki
     promtail:
-        image: grafana/promtail:2.4.2
+        image: grafana/promtail
         container_name: promtail
         restart: unless-stopped
         command: -config.file=/etc/promtail/docker-config.yml
@@ -97,5 +91,9 @@ networks:
         name: metrics
     loki:
         name: loki
+    database:
+        external: true
     traefik:
+        external: true
+    mail:
         external: true

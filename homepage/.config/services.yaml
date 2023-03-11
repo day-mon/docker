@@ -7,7 +7,7 @@
         icon: traefik.png
         href: https://traefik.montague.im
         ping: https://traefik.montague.im
-        hescription: Docker container routing
+        description: Docker container routing
         server: my-local-docker # The docker server that was configured
         container: traefik # The name of the container you'd like to connect
         widget:
