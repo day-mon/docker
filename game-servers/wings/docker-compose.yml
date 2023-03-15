@@ -4,6 +4,7 @@ services:
   wings:
     image: ghcr.io/pterodactyl/wings:v1.6.4
     container_name: game-server-backend
+    command: wings --ignore-certificate-errors
     env_file:
       - .env
     restart: always
