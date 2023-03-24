@@ -18,6 +18,7 @@ services:
         traefik.http.routers.vault.rule: Host(`vault.$PRIMARY_DOMAIN`)
         traefik.http.routers.vault.entrypoints: https
         traefik.http.services.vault.loadbalancer.server.port: 80
+        traefik.http.routers.vault.middlewares: authelia@docker
 
 networks:
   traefik:
