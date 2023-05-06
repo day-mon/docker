@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+    ztjhz:
+        build: BetterChatGPT/
+        container_name: chat
+        restart: unless-stopped
+        networks:
+            - traefik
+        labels:
+            traefik.enable: true
+            traefik.http.routers.ztjhz.entrypoints: https
+            traefik.http.services.ztjhz.loadbalancer.server.port: 3000
+            traefik.http.routers.ztjhz.rule: Host(`chat.$PRIMARY_DOMAIN`)
+            traefik.http.routers.ztjhz.middlewares: authelia@docker
+networks:
+    traefik:
+        external: true

@@ -11,12 +11,13 @@ services:
     networks:
       - traefik
     tty: true
+    ports:
+      - "2022:2022"
     environment:
       TZ: "EST"
       WINGS_UID: 988
       WINGS_GID: 988
       WINGS_USERNAME: pterodactyl
-      debug: "true"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/docker/containers/:/var/lib/docker/containers/"

@@ -10,6 +10,7 @@ providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey
 
+
 theme: dark # or light
 color: zinc
 title: Homepage

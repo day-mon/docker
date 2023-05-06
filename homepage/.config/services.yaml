@@ -69,6 +69,9 @@
         description: Monitoring
         server: my-local-docker
         container: prometheus
+        widget:
+            type: prometheus
+            url: https://prometheus.montague.im
     - Cadvisor:
         icon: cadvisor.png
         description: Docker container metrics scaper
@@ -88,6 +91,13 @@
         description: VaultWarden instance
         server: my-local-docker
         container: vaultwarden
+    - Immich:
+        icon: /icons/immich.svg
+        href: https://immich.montague.im/
+        ping: https://immich.montague.im/
+        description: Backup service for photos for my mobile phone
+        server: my-local-docker
+        container: immich_server
     - Uptime Kuma:
         icon: uptime-kuma.png
         href: http://uptime.montague.im
@@ -118,3 +128,7 @@
         description: Game server mangement
         server: my-local-docker
         container: game-server-backend
+        widget:
+            type: pterodactyl
+            url: http://games.montague.im
+            key: ptla_JI0SaNEogiGWShkMZTSJqsL8fsdois9taybDgHIZYg2
