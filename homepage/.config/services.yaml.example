@@ -1,0 +1,134 @@
+---
+# For configuration options and examples, please see:
+# https://github.com/benphelps/homepage/wiki/Services
+
+- Networking:
+    - Traefik:
+        icon: traefik.png
+        href: https://traefik.montague.im
+        ping: https://traefik.montague.im
+        description: Docker container routing
+        server: my-local-docker # The docker server that was configured
+        container: traefik # The name of the container you'd like to connect
+        widget:
+            type: traefik
+            url: http://traefik.montague.im
+    - Adguard:
+        icon: adguard-home.png
+        href: https://guard.montague.im
+        ping: https://guard.montague.im
+        description: DNS & Adblocking
+        server: my-local-docker
+        container: adguard
+        widget:
+            type: adguard
+            url: https://guard.montague.im
+            username: damon
+            password: 
+    - Authelia:
+        icon: authelia.png
+        description: Authentication for things
+        server: my-local-docker
+        container: authelia
+
+- Development:
+    - Postgres (Remote):
+        icon: postgres.png
+        href: "https://database.montague.im"
+        ping: "https://database.montague.im"
+        description: PGAdmin Instance
+        server: my-local-docker # The docker server that was configured
+        container: database-dev # The name of the container you'd like to connect
+    - Postgres (Local):
+        icon: postgres.png
+        href: "https://database.montague.im"
+        ping: "https://database.montague.im"
+        description: PGAdmin Instance
+        server: my-local-docker # The docker server that was configured
+        container: database # The name of the container you'd like to connect
+    - Surreeal:
+        icon: /icons/surreal.svg
+        href: https://surreal.montague.im
+        description: Surreal Instance (ui not avaiable yet)
+        server: my-local-docker # The docker server that was configured
+        container: surrealdb # The name of the container you'd like to connect
+
+
+- Metrics:
+    - Grafana:
+        icon: grafana.png
+        href: https://grafana.montague.im
+        ping: https://grafana.montague.im
+        description: Monitoring
+        server: my-local-docker
+        container: grafana
+    - Prometheus:
+        icon: prometheus.png
+        href: https://prometheus.montague.im
+        ping: https://prometheus.montague.im
+        description: Monitoring
+        server: my-local-docker
+        container: prometheus
+        widget:
+            type: prometheus
+            url: https://prometheus.montague.im
+    - Cadvisor:
+        icon: cadvisor.png
+        description: Docker container metrics scaper
+        server: my-local-docker
+        container: cadvisor
+    - Node Exporter:
+        icon: /icons/node-exporter.png
+        description: Exporting docker thing
+        server: my-local-docker
+        container: node-exporter
+
+- Other:
+    - VaultWarden:
+        icon: vaultwarden.png
+        href: http://vault.montague.im
+        ping: http://vault.montague.im
+        description: VaultWarden instance
+        server: my-local-docker
+        container: vaultwarden
+    - Immich:
+        icon: /icons/immich.svg
+        href: https://immich.montague.im/
+        ping: https://immich.montague.im/
+        description: Backup service for photos for my mobile phone
+        server: my-local-docker
+        container: immich_server
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: http://uptime.montague.im
+        ping: http://uptime.montague.im
+        description: Uptime statues
+        server: my-local-docker
+        container: uptime-kuma
+    - Zipline:
+        icon: /icons/zipline_small.png
+        href: http://upload.montague.im
+        ping: http://upload.montague.im
+        description: Zipline Instance (file storage & url shortener)
+        server: my-local-docker
+        container: zipline
+    - Portainer:
+        icon: portainer.png
+        href: https://docker.montague.im
+        ping: https://docker.montague.im
+        description: Frontend for docker
+        server: my-local-Docker
+        container: portainer
+
+- Game Server:
+    - Pterodactyl:
+        icon: pterodactyl.png
+        href: http://games.montague.im/
+        ping: http://games.montague.im/
+        description: Game server mangement
+        server: my-local-docker
+        container: game-server-backend
+        widget:
+            type: pterodactyl
+            url: http://games.montague.im
+            key: 
