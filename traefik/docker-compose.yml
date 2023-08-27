@@ -4,22 +4,25 @@ services:
     traefik:
         image: traefik:latest
         container_name: traefik
-        restart: unless-stopped
+        restart: always
+        env_file:
+            - .env
         networks:
             - traefik
         ports:
             - 80:80
             - 443:443
         volumes:
-            - ./traefik.yml:/etc/traefik/traefik.yml
-            - ./.data/letsencrypt/:/letsencrypt/
-            - ./configs/:/configs/:ro
+            - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+            - ./traefik/data/letsencrypt/:/letsencrypt/
+            - ./traefik/access.log:/access.log
             - /var/run/docker.sock:/var/run/docker.sock
         labels:
             traefik.enable: true
             traefik.http.routers.dashboard.rule: Host(`traefik.$PRIMARY_DOMAIN`)
             traefik.http.routers.dashboard.entrypoints: https
             traefik.http.routers.dashboard.service: api@internal
+            traefik.http.routers.dashboard.middlewares: authelia@docker
             traefik.http.middlewares.global-compress.compress: true
         command: 
             - '--api'
@@ -27,14 +30,16 @@ services:
 
     
     authelia:
-        image: authelia/authelia
+        image: authelia/authelia:v4.38.0-beta2
         container_name: authelia
+        user: 1001:1001
         depends_on:
             - traefik
         volumes:
             - ./authelia:/config
         networks:
             - traefik
+            - mail
         labels:
             - 'traefik.enable=true'
             - 'traefik.http.routers.authelia.rule=Host(`auth.$PRIMARY_DOMAIN`)'
@@ -45,12 +50,19 @@ services:
             - 'traefik.http.services.authelia.loadbalancer.server.port=9091'
         expose:
             - 9091
-        restart: unless-stopped
+        restart: always
+        environment:
+          TZ: "America/New_York"
+          AUTHELIA_NOTIFIER_SMTP_DISABLE_REQUIRE_TLS: "true"
+          AUTHELIA_NOTIFIER_SMTP_HOST: "protonbridge"
+          AUTHELIA_NOTIFIER_SMTP_PORT: 25
+          AUTHELIA_NOTIFIER_SMTP_SENDER: "Authelia <home@montague.im>"
+          AUTHELIA_NOTIFIER_SMTP_USERNAME: "damon@montague.im"
+          AUTHELIA_NOTIFIER_SMTP_TLS_SKIP_VERIFY: "true"
         healthcheck:
             disable: true
-        environment:
-            - TZ=America/New_York
-
 networks:
     traefik:
         name: traefik
+    mail:
+        external: true

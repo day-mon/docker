@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  personal_website_dev:
+    image: ghcr.io/day-mon/damon.systems:dev
+    container_name: damon_systems_website_dev
+    restart: always
+    networks:
+      - traefik
+    labels:
+      traefik.enable: true
+      traefik.http.routers.personal_website_dev.rule: Host(`dev.damon.systems`)
+      traefik.http.routers.personal_website_dev.entrypoints: https
+      traefik.http.services.personal_website_dev.loadbalancer.server.port: 3000
+      com.centurylinklabs.watchtower.enable: true
+networks:
+  traefik:
+    external: true

@@ -7,6 +7,7 @@ services:
         restart: always
         networks:
           - traefik
+          - metrics
         volumes:
           - ./workdir:/opt/adguardhome/work
           - ./confdir:/opt/adguardhome/conf
@@ -17,11 +18,7 @@ services:
           - 68:80/udp
           - 81:80/tcp
           - 853:853/tcp
-          - 784:784/udp
           - 853:853/udp
-          - 8853:8853/udp
-          - 5443:5443/tcp
-          - 5443:5443/udp
         labels:
           traefik.enable: true
           traefik.http.routers.adguard.entrypoints: https
@@ -33,4 +30,6 @@ services:
 
 networks:
   traefik:
+    external: true
+  metrics:
     external: true

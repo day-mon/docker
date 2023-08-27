@@ -4,7 +4,7 @@ services:
     zipline:
       image: ghcr.io/diced/zipline
       container_name: zipline
-      restart: unless-stopped
+      restart: always 
       env_file:
         - conf.env
       networks:

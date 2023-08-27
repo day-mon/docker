@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  svelte_website:
+  personal_website:
     image: ghcr.io/day-mon/damon.systems:main
     container_name: damon_systems_website
     restart: always
@@ -11,9 +11,10 @@ services:
       traefik.http.routers.personal_website.rule: Host(`damon.systems`) || Host(`www.damon.systems`)
       traefik.http.routers.personal_website.entrypoints: https
       traefik.http.routers.personal_website.middlewares: www-personal_website-redirect
-      traefik.http.services.personal_website.loadbalancer.server.port: 5010
+      traefik.http.services.personal_website.loadbalancer.server.port: 3000
       traefik.http.middlewares.www-personal_website-redirect.redirectregex.regex: https://www.damon.systems/(.*)
       traefik.http.middlewares.www-personal_website-redirect.redirectregex.replacement: https://damon.systems/$${1}
+      com.centurylinklabs.watchtower.enable: true
 networks:
   traefik:
     external: true

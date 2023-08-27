@@ -2,9 +2,9 @@ version: '3.7'
 
 services:
     protonbridge:
-      image: shenxn/protonmail-bridge:2.3.0-1
+      image: shenxn/protonmail-bridge:3.2.0-1
       container_name: protonbridge
-      restart: unless-stopped
+      restart: always 
       networks:
         - mail
       ports:

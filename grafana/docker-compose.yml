@@ -15,6 +15,8 @@ services:
             - database
             - traefik
             - loki
+        environment:
+          - "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel" 
         labels:
             traefik.enable: true
             traefik.http.routers.grafana.rule: Host(`grafana.$PRIMARY_DOMAIN`)

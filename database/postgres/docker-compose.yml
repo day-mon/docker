@@ -4,7 +4,7 @@ services:
     database:
         image: postgres:14.0
         container_name: database
-        restart: unless-stopped
+        restart: always 
         env_file:
             - conf.env
         volumes:
@@ -14,7 +14,7 @@ services:
     database-dev:
         image: postgres:14
         container_name: database-dev
-        restart: unless-stopped
+        restart: always
         env_file:
             - conf-dev.env
         volumes:
@@ -26,7 +26,7 @@ services:
     pgadmin:
         image: dpage/pgadmin4:latest
         container_name: pgadmin
-        restart: unless-stopped
+        restart: always 
         env_file:
             - conf.env
         volumes:

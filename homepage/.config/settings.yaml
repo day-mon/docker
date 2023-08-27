@@ -14,4 +14,5 @@ providers:
 theme: dark # or light
 color: zinc
 title: Homepage
-headerStyle: boxed
+# showStats: true
+headerStyle: underlined
