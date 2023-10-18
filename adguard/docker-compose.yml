@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
     adguard:
@@ -8,10 +8,13 @@ services:
         volumes:
           - ./workdir:/opt/adguardhome/work
           - ./confdir:/opt/adguardhome/conf
-        ports:
-          - 53:53/tcp
-          - 53:53/udp
-          - 81:80/tcp
-          - 853:853/tcp
-          - 853:853/udp
-          - 5810:3000
+        network_mode: "host" 
+#        ports:
+ #         - 53:53/tcp
+  #        - 53:53/udp
+   #       - 81:80/tcp
+    #      - 853:853/tcp
+     #     - 853:853/udp
+      #    - 5810:3000
+       #   - 67:67
+        #  - 68:68
