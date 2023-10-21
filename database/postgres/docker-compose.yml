@@ -23,23 +23,24 @@ services:
             - database
         ports:
             - 5432:5432
-    pgadmin:
-        image: dpage/pgadmin4:latest
-        container_name: pgadmin
-        restart: always 
+    baserow :
+        image: baserow/baserow:1.20.2
+        container_name: baserow
         env_file:
             - conf.env
         volumes:
-            - ./.data/pgadmin:/var/lib/pgadmin
+            - ./.baserow:/baserow/data
+        environment:
+            BASEROW_PUBLIC_URL: 'https://database.montague.im'
         networks:
             - database
             - traefik
         labels:
             traefik.enable: true
-            traefik.http.routers.pgadmin.rule: Host(`database.$PRIMARY_DOMAIN`)
-            traefik.http.routers.pgadmin.entrypoints: https
-            traefik.http.services.pgadmin.loadbalancer.server.port: 80
-            traefik.http.routers.pgadmin.middlewares: authelia@docker
+            traefik.http.routers.baserow.rule: Host(`database.$PRIMARY_DOMAIN`)
+            traefik.http.routers.baserow.entrypoints: https
+            traefik.http.services.baserow.loadbalancer.server.port: 443
+            traefik.http.routers.baserow.middlewares: authelia@docker
 
 networks:
     database:

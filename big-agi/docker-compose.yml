@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  big-agi:
+    image: ghcr.io/enricoros/big-agi:main
+    restart: always
+    networks:
+      - traefik
+    labels:
+      traefik.enable: true
+      traefik.http.routers.chat.entrypoints: https
+      traefik.http.services.chat.loadbalancer.server.port: 3000
+      traefik.http.routers.chat.rule: Host(`chat.$PRIMARY_DOMAIN`)
+      #traefik.http.routers.chat.middlewares: authelia@docker
+    env_file:
+      - .env
+    command: ["next", "start", "-p", "3000"]
+
+networks:
+  traefik:
+    external: true

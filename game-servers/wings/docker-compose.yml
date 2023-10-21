@@ -11,8 +11,6 @@ services:
     networks:
       - traefik
     tty: true
-    ports:
-      - "2022:2022"
     environment:
       TZ: "EST"
       WINGS_UID: 988

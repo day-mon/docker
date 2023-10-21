@@ -1,10 +1,9 @@
----
 ###############################################################
 #                   Authelia configuration                    #
 ###############################################################
 
-jwt_secret: secret
 default_redirection_url: https://home.montague.im
+theme: dark
 
 server:
   host: 0.0.0.0
@@ -26,44 +25,78 @@ access_control:
   default_policy: deny
   rules:
     - domain:
-      - "auth.montague.im"
+        - "auth.montague.im"
       policy: bypass
     - domain:
-      - montague.im
-      - "*.montague.im"
+        - montague.im
+        - "*.montague.im"
       policy: bypass
-      resources:
-        - "^/api([/?].*)?$"
       networks:
         - 192.168.0.0/16
         - 172.16.0.0/12
         - 10.0.0.0/8
     - domain:
-      - montague.im
-      - "*.montague.im"
+      - vault.montague.im
+      resources:
+        - "^/api.*$"
+        - "^/icons.*$"
+        - "^/identity.*$"
+        - "^/notifications.*$"
+      policy: bypass
+    - domain:
+        - vault.montague.im
       policy: one_factor
+      subject:
+        - 'group:family'
+    - domain:
+        - grafana.montague.im
+        - games.montague.im
+        - chat.montague.im
+      policy: one_factor
+      subject:
+        - 'group:friends'
+    - domain:
+        - database.montague.im
+        - docker.montague.im
+        - vault.montague.im
+      policy: two_factor
+    - domain:
+        - montague.im
+        - "*.montague.im"
+      policy: one_factor
+      subject:
+        - 'group:admin'
 
 
 
 session:
   name: authelia_session
-  secret: "secret"
-  expiration: 3600  # 1 hour
-  inactivity: 300  # 5 minutes
+  expiration: 2h
+  inactivity: 30m
   domain: montague.im  # Should match whatever your root protected domain is
-  remember_me_duration:  1M
+  remember_me:  6m
+  redis:
+    host: authelia_redis
+    port: 6379
 
 regulation:
-  max_retries: 3
+  max_retries: 6
   find_time: 120
   ban_time: 300
 
 storage:
-  encryption_key: "secret"
   local:
     path: /config/db.sqlite3
 
+
 notifier:
-  filesystem:
-    filename: /config/notification.txt
-...
+  disable_startup_check: true
+  smtp:
+      host: protonbridge
+      port: 25
+      timeout: 25s
+      username: damon@montague.im
+      sender: no-reply@montague.im
+      disable_starttls: false
+      tls:
+        skip_verify: true

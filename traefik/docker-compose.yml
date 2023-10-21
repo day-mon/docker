@@ -1,4 +1,15 @@
+---
 version: '3.7'
+
+secrets:
+  JWT_SECRET:
+    file: ${PWD}/authelia/secrets/JWT_SECRET
+  SESSION_SECRET:
+    file: ${PWD}/authelia/secrets/SESSION_SECRET
+  STORAGE_ENCRYPTION_KEY:
+    file: ${PWD}/authelia/secrets/STORAGE_ENCRYPTION_KEY
+  SMTP_PASSWORD:
+    file: ${PWD}/authelia/secrets/SMTP_PASSWORD
 
 services:
     traefik:
@@ -28,7 +39,6 @@ services:
             - '--api'
             - '--providers.docker=true'
 
-    
     authelia:
         image: authelia/authelia:v4.38.0-beta2
         container_name: authelia
@@ -39,6 +49,7 @@ services:
             - ./authelia:/config
         networks:
             - traefik
+            - authelia
             - mail
         labels:
             - 'traefik.enable=true'
@@ -51,18 +62,29 @@ services:
         expose:
             - 9091
         restart: always
+        secrets: [JWT_SECRET, SESSION_SECRET, STORAGE_ENCRYPTION_KEY, SMTP_PASSWORD]
         environment:
-          TZ: "America/New_York"
-          AUTHELIA_NOTIFIER_SMTP_DISABLE_REQUIRE_TLS: "true"
-          AUTHELIA_NOTIFIER_SMTP_HOST: "protonbridge"
-          AUTHELIA_NOTIFIER_SMTP_PORT: 25
-          AUTHELIA_NOTIFIER_SMTP_SENDER: "Authelia <home@montague.im>"
-          AUTHELIA_NOTIFIER_SMTP_USERNAME: "damon@montague.im"
-          AUTHELIA_NOTIFIER_SMTP_TLS_SKIP_VERIFY: "true"
+            TZ: "America/New_York"
+            AUTHELIA_JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+            AUTHELIA_SESSION_SECRET_FILE: /run/secrets/SESSION_SECRET
+            AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/STORAGE_ENCRYPTION_KEY
+            AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: /run/secrets/SMTP_PASSWORD
         healthcheck:
             disable: true
+
+    authelia_redis:
+        image: redis:latest
+        container_name: authelia-redis-cache
+        restart: always
+        depends_on:
+            - authelia
+        networks:
+            - authelia
+
 networks:
     traefik:
         name: traefik
+    authelia:
+        name: authelia
     mail:
         external: true
