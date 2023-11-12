@@ -25,6 +25,7 @@ services:
       traefik.http.routers.immich_server.priority: 20
       traefik.http.middlewares.immich-api-strip.stripprefix.prefixes: "/api"
       traefik.http.routers.immich_server.middlewares: immich-api-strip
+      com.centurylinklabs.watchtower.enable: true
   immich-microservices:
     container_name: immich_microservices
     image: ghcr.io/immich-app/immich-server:release
@@ -52,6 +53,8 @@ services:
     networks:
       - immich      
     restart: always
+    labels:
+      com.centurylinklabs.watchtower.enable: true
 
   immich-web:
     container_name: immich_web
@@ -69,6 +72,8 @@ services:
      traefik.http.services.immich_web.loadbalancer.server.port: 3000
      traefik.http.routers.immich_web.rule: Host(`immich.$PRIMARY_DOMAIN`)
      traefik.http.routers.immich_web.priority: 10
+     com.centurylinklabs.watchtower.enable: true
+
 
   typesense:
     container_name: immich_typesense

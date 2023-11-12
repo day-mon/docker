@@ -54,6 +54,8 @@ providers:
     docker:
         exposedByDefault: false
         network: traefik
+    file:
+        
 
 api:
     dashboard: true
