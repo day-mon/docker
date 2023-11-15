@@ -26,6 +26,7 @@ services:
       traefik.http.middlewares.immich-api-strip.stripprefix.prefixes: "/api"
       traefik.http.routers.immich_server.middlewares: immich-api-strip
       com.centurylinklabs.watchtower.enable: true
+      com.centurylinklabs.watchtower.scope: local
   immich-microservices:
     container_name: immich_microservices
     image: ghcr.io/immich-app/immich-server:release
@@ -41,6 +42,9 @@ services:
       - immich-redis
       - typesense
     restart: always
+    labels:
+        com.centurylinklabs.watchtower.enable: true
+        com.centurylinklabs.watchtower.scope: local
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -55,6 +59,7 @@ services:
     restart: always
     labels:
       com.centurylinklabs.watchtower.enable: true
+      com.centurylinklabs.watchtower.scope: local
 
   immich-web:
     container_name: immich_web
@@ -73,6 +78,8 @@ services:
      traefik.http.routers.immich_web.rule: Host(`immich.$PRIMARY_DOMAIN`)
      traefik.http.routers.immich_web.priority: 10
      com.centurylinklabs.watchtower.enable: true
+     com.centurylinklabs.watchtower.scope: local
+
 
 
   typesense:

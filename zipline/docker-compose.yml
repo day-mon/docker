@@ -19,6 +19,7 @@ services:
         traefik.http.services.upload.loadbalancer.server.port: 3000
         traefik.http.routers.upload.rule: Host(`upload.$PRIMARY_DOMAIN`)
         com.centurylinklabs.watchtower.enable: true
+        com.centurylinklabs.watchtower.scope: local
 
       
 

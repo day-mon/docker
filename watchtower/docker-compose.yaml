@@ -7,7 +7,6 @@ services:
         container_name: watchtower
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-        command: --debug --http-api-update --label-enable
         env_file:
             - conf.env
         networks:
@@ -17,6 +16,21 @@ services:
             traefik.http.routers.watchtower.rule: Host(`watchtower.$PRIMARY_DOMAIN`)
             traefik.http.routers.watchtower.entrypoints: https
             traefik.http.services.watchtower.loadbalancer.server.port: 8080
+
+
+    watchtower-local:
+        image: containrrr/watchtower
+        restart: unless-stopped
+        container_name: local-watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            WATCHTOWER_LABEL_ENABLE: true
+            TZ: EST
+            WATCHTOWER_LOG_FORMAT: Pretty
+            WATCHTOWER_SCOPE: local
+            # time in seconds 1/2 of a day
+            WATCHTOWER_POLL_INTERVAL: 43200
 
 networks:
     traefik:

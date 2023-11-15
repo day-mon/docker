@@ -17,6 +17,7 @@ services:
       traefik.http.services.home.loadbalancer.server.port: 3000
       traefik.http.routers.home.middlewares: authelia@docker
       com.centurylinklabs.watchtower.enable: true
+      com.centurylinklabs.watchtower.scope: local
 networks:
   traefik:
-    external: true
+    external: true 
