@@ -13,6 +13,8 @@ services:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
     env_file:
       - .env
+    ports:
+      - 2283:3001
     depends_on:
       - immich-redis
       - typesense
@@ -21,10 +23,7 @@ services:
       traefik.enable: true
       traefik.http.routers.immich_server.entrypoints: https
       traefik.http.services.immich_server.loadbalancer.server.port: 3001
-      traefik.http.routers.immich_server.rule: Host(`immich.$PRIMARY_DOMAIN`) && Pathprefix(`/api`)
-      traefik.http.routers.immich_server.priority: 20
-      traefik.http.middlewares.immich-api-strip.stripprefix.prefixes: "/api"
-      traefik.http.routers.immich_server.middlewares: immich-api-strip
+      traefik.http.routers.immich_server.rule: Host(`immich.$PRIMARY_DOMAIN`)
       com.centurylinklabs.watchtower.enable: true
       com.centurylinklabs.watchtower.scope: local
   immich-microservices:
@@ -60,25 +59,6 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: true
       com.centurylinklabs.watchtower.scope: local
-
-  immich-web:
-    container_name: immich_web
-    image: ghcr.io/immich-app/immich-web:release
-    entrypoint: ["/bin/sh", "./entrypoint.sh"]
-    env_file:
-      - .env
-    restart: always
-    networks:
-      - immich
-      - traefik
-    labels:
-     traefik.enable: true
-     traefik.http.routers.immich_web.entrypoints: https
-     traefik.http.services.immich_web.loadbalancer.server.port: 3000
-     traefik.http.routers.immich_web.rule: Host(`immich.$PRIMARY_DOMAIN`)
-     traefik.http.routers.immich_web.priority: 10
-     com.centurylinklabs.watchtower.enable: true
-     com.centurylinklabs.watchtower.scope: local
 
 
 
