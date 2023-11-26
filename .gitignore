@@ -10,3 +10,4 @@ minecraft/normal/.data
 *.save
 *.env
 *.log
+*.ini
