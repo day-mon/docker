@@ -1,0 +1,50 @@
+instance_name = "Montague"
+http_port = 3000
+
+
+[server]
+enable_gzip = true
+root_url = https://grafana.montague.im
+
+
+[database]
+type = postgres
+host = grafana-database:5432
+name = postgres
+user = postgres
+password = postgres
+
+
+[log.console]
+level = debug
+
+
+[log.frontend]
+enabled = true
+provider = grafana
+
+[auth]
+signout_redirect_url = https://auth.montague.im/application/o/grafana/end-session/
+oauth_auto_login = true
+
+
+[auth.generic_oauth]
+enabled = true
+name = Authentik
+icon = signin
+client_id = 
+client_secret = 
+scopes = openid email profile
+auth_url = https://auth.montague.im/application/o/authorize/
+token_url = https://auth.montague.im/application/o/token/
+api_url = https://auth.montague.im/application/o/userinfo/
+allowed_groups = admin GrafanaUser GrafanaEditor GrafanaViewer Admin
+role_attribute_path = contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'admin') && 'Admin'  || contains(groups[*], 'Admin') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+groups_attribute_path = groups
+
+[auth.basic]
+enabled = false
+
+[users]
+allow_sign_up = false
+default_theme = dark

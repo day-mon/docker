@@ -1,0 +1,96 @@
+version: '3.7'
+
+services:
+    grafana:
+        image: grafana/grafana-oss
+        container_name: grafana
+        restart: unless-stopped
+        ports:
+          - 3000:3000
+        volumes:
+            - ./.data/grafana/:/var/lib/grafana/
+            - ./grafana.ini:/etc/grafana/grafana.ini
+        networks:
+            - grafana
+            - grafana-database
+            - metrics
+        depends_on:
+            - grafana-database
+  
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        restart: unless-stopped
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--storage.tsdb.retention.time=1y'
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./.data/prometheus/:/prometheus/data/
+        networks:
+            - metrics
+  
+
+    node-exporter:
+        image: prom/node-exporter
+        container_name: node-exporter
+        restart: unless-stopped
+        command: --path.rootfs=/host
+        pid: host
+        volumes:
+            - /:/host:ro,rslave
+        networks:
+            - metrics
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor
+        container_name: cadvisor
+        restart: unless-stopped
+        command:
+            - --docker_only=true
+            - --disable_metrics=referenced_memory,disk,percpu,sched,process
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        networks:
+            - metrics
+    loki:
+        image: grafana/loki
+        container_name: loki
+        restart: unless-stopped
+        command: -config.file=/etc/loki/local-config.yaml
+        networks:
+            - metrics
+        volumes:
+            - ./loki.yml:/etc/loki/docker-config.yaml
+    promtail:
+        image: grafana/promtail
+        container_name: promtail
+        restart: unless-stopped
+        command: -config.file=/etc/promtail/docker-config.yml
+        volumes:
+            - /var/lib/docker/containers:/var/lib/docker/containers
+            - ./promtail-config.yml:/etc/promtail/docker-config.yml
+        networks:
+            - metrics
+    grafana-database:
+        image: postgres:latest
+        container_name: postgres-database
+        restart: unless-stopped
+        environment:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        volumes:
+            - ./.data/postgres/:/var/lib/postgresql/data/
+        networks:
+            - grafana-database
+networks:
+    grafana:
+        name: grafana
+    metrics:
+        name: metrics
+    grafana-database:
+        name: grafana-database
