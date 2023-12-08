@@ -1,0 +1,8 @@
+certs
+.env.auth
+.env.db
+media
+database
+custom-template
+redis
+

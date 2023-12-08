@@ -5,7 +5,7 @@ global:
 log:
     level: info 
     format: common
-    
+
 
 accessLog:
     filePath: "./access.log"
@@ -23,20 +23,20 @@ entryPoints:
         address: ':443'
         http:
             tls:
-                 certResolver: cloudflare
-                 domains:
-                     - main: 'montague.im'
-                       sans:
-                           - '*.montague.im'
-                     - main: 'damon.systems'
-                       sans:
-                           - '*.damon.systems'
-                     - main: 'accuribet.win'
-                       sans:
-                           - '*.accuribet.win'
-                     - main: 'emotionalhealingsolutions.com'
-                       sans:
-                           - '*.emotionalhealingsolutions.com'
+                certResolver: cloudflare
+                domains:
+                    - main: 'montague.im'
+                      sans:
+                          - '*.montague.im'
+                    - main: 'damon.systems'
+                      sans:
+                          - '*.damon.systems'
+                    - main: 'accuribet.win'
+                      sans:
+                          - '*.accuribet.win'
+                    - main: 'emotionalhealingsolutions.com'
+                      sans:
+                          - '*.emotionalhealingsolutions.com'
 
 
 
@@ -44,15 +44,17 @@ providers:
     docker:
         exposedByDefault: false
         network: traefik
+    file:
+        filename: /etc/traefik/config.yml
 
 api:
     dashboard: true
 
 experimental:
-  plugins:
-    traefik-get-real-ip:
-      moduleName: "github.com/Paxxs/traefik-get-real-ip"
-      version: "v1.0.3"
+    plugins:
+        traefik-get-real-ip:
+            moduleName: "github.com/Paxxs/traefik-get-real-ip"
+            version: "v1.0.3"
 
 certificatesResolvers:
     default:

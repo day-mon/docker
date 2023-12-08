@@ -16,7 +16,7 @@ services:
         traefik.http.routers.portainer.entrypoints: https
         traefik.http.services.portainer.loadbalancer.server.port: 9000
         traefik.http.routers.portainer.rule: Host(`docker.$PRIMARY_DOMAIN`)
-        traefik.http.routers.portainer.middlewares: authelia@docker
+#        traefik.http.routers.portainer.middlewares: authelia@docker
         com.centurylinklabs.watchtower.enable: true
         com.centurylinklabs.watchtower.scope: local
 

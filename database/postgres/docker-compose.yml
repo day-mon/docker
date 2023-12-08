@@ -40,7 +40,7 @@ services:
             traefik.http.routers.baserow.rule: Host(`database.$PRIMARY_DOMAIN`)
             traefik.http.routers.baserow.entrypoints: https
             traefik.http.services.baserow.loadbalancer.server.port: 443
-            traefik.http.routers.baserow.middlewares: authelia@docker
+#            traefik.http.routers.baserow.middlewares: authelia@docker
 
 networks:
     database:
