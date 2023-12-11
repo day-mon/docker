@@ -1,0 +1,17 @@
+version: "3.7"
+# https://github.com/Griffen8280/adguard-exporter/tree/master
+services:
+  adguard_exporter:
+    image: ebrianne/adguard-exporter:latest
+    container_name: adguard-exporter
+    restart: always
+    ports:
+      - 9617:9617
+    env_file:
+      - .env
+    networks:
+      - metrics
+
+networks:
+  metrics:
+    external: true

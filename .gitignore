@@ -11,3 +11,4 @@ minecraft/normal/.data
 *.env
 *.log
 *.ini
+jellyfin

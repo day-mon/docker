@@ -9,12 +9,3 @@ services:
           - ./workdir:/opt/adguardhome/work
           - ./confdir:/opt/adguardhome/conf
         network_mode: "host" 
-#        ports:
- #         - 53:53/tcp
-  #        - 53:53/udp
-   #       - 81:80/tcp
-    #      - 853:853/tcp
-     #     - 853:853/udp
-      #    - 5810:3000
-       #   - 67:67
-        #  - 68:68

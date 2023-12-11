@@ -11,9 +11,9 @@ services:
             - ./.data/grafana/:/var/lib/grafana/
             - ./grafana.ini:/etc/grafana/grafana.ini
         networks:
-            - grafana
             - grafana-database
             - metrics
+            - mail
         depends_on:
             - grafana-database
   
@@ -21,6 +21,8 @@ services:
         image: prom/prometheus
         container_name: prometheus
         restart: unless-stopped
+        ports:
+            - 9090:9090
         command:
             - '--config.file=/etc/prometheus/prometheus.yml'
             - '--storage.tsdb.path=/prometheus'
@@ -37,30 +39,21 @@ services:
         container_name: node-exporter
         restart: unless-stopped
         command: --path.rootfs=/host
+        ports:
+            - 9100:9100
         pid: host
         volumes:
             - /:/host:ro,rslave
         networks:
             - metrics
-    cadvisor:
-        image: gcr.io/cadvisor/cadvisor
-        container_name: cadvisor
-        restart: unless-stopped
-        command:
-            - --docker_only=true
-            - --disable_metrics=referenced_memory,disk,percpu,sched,process
-        volumes:
-            - /:/rootfs:ro
-            - /var/run:/var/run:ro
-            - /sys:/sys:ro
-            - /var/lib/docker/:/var/lib/docker:ro
-        networks:
-            - metrics
+
     loki:
         image: grafana/loki
         container_name: loki
         restart: unless-stopped
         command: -config.file=/etc/loki/local-config.yaml
+        ports: 
+            - 127.0.0.1:3100:3100
         networks:
             - metrics
         volumes:
@@ -87,10 +80,13 @@ services:
             - ./.data/postgres/:/var/lib/postgresql/data/
         networks:
             - grafana-database
+
 networks:
     grafana:
         name: grafana
     metrics:
         name: metrics
+    mail:
+        external: true
     grafana-database:
         name: grafana-database
