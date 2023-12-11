@@ -3,3 +3,4 @@ users_database.yml
 *.sqlite3
 notification.txt
 authelia/secrets
+traefik/data/letsencrypt/*
