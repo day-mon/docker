@@ -1,0 +1,76 @@
+version: '3.7'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: always
+    ports:
+      - 8096:8096
+    volumes:
+      - ./jellyfin/config:/config
+      - ./jellyfin/cache:/cache
+      - ./downloads/movies:/media/movies/
+      - ./downloads/shows:/media/showsd
+    networks:
+      - jellyfin
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - ./prowlarr/config:/config
+      - ./downloads/:/downloads/
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    networks:
+      - jellyfin
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - /radarr/config:/config
+      - /jellyfin/movies:/movies #optional
+      - ./downloads/:/downloads/
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  arch-qbittorrentvpn:
+    image: binhex/arch-qbittorrentvpn
+    container_name: qbittorrentvpn
+    volumes:
+      - './qbittorrentvpn/config/:/config'
+      - './downloads:/data'
+      - '/etc/localtime:/etc/localtime:ro'
+      - ./mover.sh:/mover.sh
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+      - 8118:8118 
+    env_file:
+      - qbit.env
+    cap_add:
+      - NET_ADMIN
+    network_mode: bridge
+    restart: unless-stopped
+
+
+
+networks:
+  jellyfin:
+    name: jellyfin
