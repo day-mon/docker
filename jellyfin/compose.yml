@@ -10,7 +10,7 @@ services:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
       - ./downloads/movies:/media/movies/
-      - ./downloads/shows:/media/showsd
+      - ./downloads/shows:/media/shows
     networks:
       - jellyfin
     deploy:
@@ -35,6 +35,8 @@ services:
     restart: unless-stopped
     networks:
       - jellyfin
+    depends_on:
+      - arch-qbittorrentvpn
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -44,19 +46,34 @@ services:
       - TZ=America/New_York
     volumes:
       - /radarr/config:/config
-      - /jellyfin/movies:/movies #optional
       - ./downloads/:/downloads/
     ports:
       - 7878:7878
     restart: unless-stopped
+    depends_on:
+      - arch-qbittorrentvpn
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - ./sonarr/config:/config
+      - ./downloads/:/downloads/
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    depends_on:
+      - arch-qbittorrentvpn
   arch-qbittorrentvpn:
     image: binhex/arch-qbittorrentvpn
     container_name: qbittorrentvpn
     volumes:
       - './qbittorrentvpn/config/:/config'
-      - './downloads:/data'
+      - './downloads:/downloads'
       - '/etc/localtime:/etc/localtime:ro'
-      - ./mover.sh:/mover.sh
     ports:
       - 6881:6881
       - 6881:6881/udp
@@ -68,9 +85,24 @@ services:
       - NET_ADMIN
     network_mode: bridge
     restart: unless-stopped
-
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=America/New_York
+      - PORT=5055 #optional
+    ports:
+      - 5055:5055
+    volumes:
+      - ./overseerr:/app/config
+    restart: unless-stopped
+    networks:
+      - mail
 
 
 networks:
   jellyfin:
     name: jellyfin
+  mail:
+    name: mail
