@@ -2,10 +2,11 @@ version: "3.9"
 
 services:
   big-agi:
-    image: ghcr.io/enricoros/big-agi:main
+    image: ghcr.io/enricoros/big-agi:latest
     restart: always
     networks:
       - traefik
+      - ollama
     labels:
       traefik.enable: true
       traefik.http.routers.chat.entrypoints: https
@@ -17,6 +18,26 @@ services:
     #  - .env
     command: ["next", "start", "-p", "3000"]
 
+  ollama:
+    hostname: ollama
+    container_name: ollama
+    build:
+      context: ./ollama
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama_data:/app
+    networks:
+      - ollama
+
+volumes:
+  ollama_data:
+    driver: local
+
+
 networks:
   traefik:
     external: true
+  ollama:
+    name: ollama

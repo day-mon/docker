@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     database:
-        image: postgres:14.0
+        image: tensorchord/pgvecto-rs:pg14-v0.1.11 
         container_name: database
         restart: always 
         env_file:
@@ -23,25 +23,6 @@ services:
             - database
         ports:
             - 5432:5432
-    baserow :
-        image: baserow/baserow:1.20.2
-        container_name: baserow
-        env_file:
-            - conf.env
-        volumes:
-            - ./.baserow:/baserow/data
-        environment:
-            BASEROW_PUBLIC_URL: 'https://database.montague.im'
-        networks:
-            - database
-            - traefik
-        labels:
-            traefik.enable: true
-            traefik.http.routers.baserow.rule: Host(`database.$PRIMARY_DOMAIN`)
-            traefik.http.routers.baserow.entrypoints: https
-            traefik.http.services.baserow.loadbalancer.server.port: 443
-#            traefik.http.routers.baserow.middlewares: authelia@docker
-
 networks:
     database:
         name: database
