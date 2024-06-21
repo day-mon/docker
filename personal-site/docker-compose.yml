@@ -2,7 +2,7 @@ version: '3.7'
 services:
   personal_website:
     image: ghcr.io/day-mon/damon.systems:main
-    container_name: damon_systems_website
+    container_name: damon_systems_website_new
     restart: always
     networks:
       - traefik
